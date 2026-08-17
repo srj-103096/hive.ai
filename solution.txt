@@ -1,0 +1,23 @@
+1. The entrypoint referenced nginx02 using the incorrect filename
+   "nginxo2.conf". This was corrected to "nginx02.conf".
+2. HAProxy expected backend servers on ports 8000, 8001 and 8002,
+   while the supplied nginx configurations were listening on 8001,
+   8002 and 8003.
+3. The three nginx instances were corrected to:
+      nginx01 -> 8000
+      nginx02 -> 8001
+      nginx03 -> 8002
+4. Each nginx instance was given a separate PID file so that the
+   three nginx master processes can coexist correctly.
+5. HAProxy was configured to use 127.0.0.1 instead of localhost for
+   the nginx backends. This avoids hostname-resolution issues with
+   the HAProxy chroot configuration.
+6. The HTTP response was changed to:
+      it works! solved by suraj
+7. HAProxy remains exposed on port 80 inside the container and is
+   published as port 8080 on the Docker host.
+8. HAProxy health checks were added to verify backend availability.
+9. A second container was added to collect basic OS metrics such as
+   CPU, memory, load average and disk usage.
+10. HAProxy exposes the metrics through:
+      /metrics
