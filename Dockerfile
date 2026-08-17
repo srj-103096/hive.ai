@@ -1,9 +1,16 @@
-FROM python:3.12-alpine
+FROM mkassaian/docker-challenge
 
-WORKDIR /app
+COPY nginx01.conf /etc/nginx/nginx01.conf
+COPY nginx02.conf /etc/nginx/nginx02.conf
+COPY nginx03.conf /etc/nginx/nginx03.conf
 
-COPY scraper.py .
+COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 
-EXPOSE 9100
+COPY index.html /var/www/html/index.html
 
-CMD ["python3", "scraper.py"]
+COPY entrypoint.sh /entrypoint.sh
+COPY solution.txt /solution.txt
+
+RUN chmod +x /entrypoint.sh
+
+CMD ["/bin/sh", "/entrypoint.sh"]
